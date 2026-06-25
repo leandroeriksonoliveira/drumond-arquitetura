@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/lib/site-config";
+import { ArchitectPhoto } from "@/components/ui/ArchitectPhoto";
 
 export const metadata: Metadata = {
   title: "Sobre",
@@ -20,7 +21,9 @@ export default function SobrePage() {
           {siteConfig.title} · {siteConfig.cauRegistro}
         </p>
 
-        <div className="prose-legal mt-12 space-y-6">
+        <div className="mt-10 grid gap-10 md:grid-cols-[280px_1fr] md:items-start">
+          <ArchitectPhoto className="aspect-[3/4] w-full max-w-[280px]" />
+          <div className="prose-legal space-y-6">
           <p className="text-lg leading-relaxed text-zinc-300">
             Seja muito bem-vindo(a)! Sou Paloma Drumond, natural de Volta
             Redonda-RJ, {siteConfig.title.toLowerCase()}, formada pelo Centro
@@ -65,6 +68,7 @@ export default function SobrePage() {
             <br />
             {siteConfig.legalEntity}
           </p>
+          </div>
         </div>
       </section>
     </div>

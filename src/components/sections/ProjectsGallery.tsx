@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { projects, type Project } from "@/data/projects";
 
 const ProjectViewer3D = dynamic(
@@ -9,16 +10,6 @@ const ProjectViewer3D = dynamic(
     import("@/components/three/ProjectViewer3D").then((m) => m.ProjectViewer3D),
   { ssr: false, loading: () => <div className="h-full animate-pulse bg-white/5" /> },
 );
-
-const typeMap: Record<
-  Project["category"],
-  "residential" | "commercial" | "religious" | "reform"
-> = {
-  Residencial: "residential",
-  Comercial: "commercial",
-  Religioso: "religious",
-  Reforma: "reform",
-};
 
 export function ProjectsGallery() {
   const [selected, setSelected] = useState(projects[0]);
@@ -33,18 +24,16 @@ export function ProjectsGallery() {
           Galeria de Projetos
         </h1>
         <p className="mt-4 max-w-2xl text-zinc-400">
-          Explore nossos projetos com visualização interativa em 3D. Arraste para
-          rotacionar. Cada obra divulgada indica Responsabilidade Técnica (RRT)
-          conforme Res. CAU/BR 75/2014.
+          Renders 3D e fotos reais de obras executadas. Arraste para explorar
+          cada projeto em visualização interativa. Cada obra indica
+          Responsabilidade Técnica (RRT) conforme Res. CAU/BR 75/2014.
         </p>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
           <div className="overflow-hidden rounded-2xl border border-white/5 bg-[#141820]">
-            <ProjectViewer3D
-              color={selected.color}
-              type={typeMap[selected.category]}
-              className="h-[400px] w-full"
-            />
+            <div className="relative h-[420px] w-full">
+              <ProjectViewer3D image={selected.image} className="relative h-full w-full" />
+            </div>
             <div className="border-t border-white/5 p-6">
               <p className="text-xs uppercase tracking-wider text-[#c9a962]">
                 {selected.category} · {selected.location} · {selected.year}
@@ -52,6 +41,9 @@ export function ProjectsGallery() {
               <h2 className="mt-2 font-display text-2xl text-white">
                 {selected.title}
               </h2>
+              {selected.client && (
+                <p className="mt-1 text-xs text-zinc-500">{selected.client}</p>
+              )}
               <p className="mt-2 text-sm text-zinc-400">{selected.description}</p>
               <p className="mt-4 rounded-lg bg-white/5 px-3 py-2 text-xs text-zinc-500">
                 RT: {selected.rrt}
@@ -59,33 +51,62 @@ export function ProjectsGallery() {
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid max-h-[640px] gap-3 overflow-y-auto pr-1 sm:grid-cols-2">
             {projects.map((project) => (
-              <button
+              <ProjectThumb
                 key={project.id}
-                type="button"
-                onClick={() => setSelected(project)}
-                className={`rounded-xl border p-4 text-left transition ${
-                  selected.id === project.id
-                    ? "border-[#c9a962] bg-[#c9a962]/10"
-                    : "border-white/5 bg-[#141820]/50 hover:border-white/20"
-                }`}
-              >
-                <p className="text-xs text-[#c9a962]">{project.category}</p>
-                <p className="mt-1 font-display text-lg text-white">
-                  {project.title}
-                </p>
-                <p className="mt-1 text-xs text-zinc-500">{project.location}</p>
-              </button>
+                project={project}
+                active={selected.id === project.id}
+                onSelect={() => setSelected(project)}
+              />
             ))}
           </div>
         </div>
 
         <p className="mt-12 text-center text-xs text-zinc-600">
-          Imagens ilustrativas. Números de RRT devem ser atualizados com os
-          registros oficiais SICCAU antes da publicação definitiva.
+          Projetos extraídos do portfólio oficial (Google Sites e Instagram
+          @drumond_arquitetura). Atualize os números de RRT no SICCAU antes da
+          publicação definitiva.
         </p>
       </section>
     </div>
+  );
+}
+
+function ProjectThumb({
+  project,
+  active,
+  onSelect,
+}: {
+  project: Project;
+  active: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={`overflow-hidden rounded-xl border text-left transition ${
+        active
+          ? "border-[#c9a962] ring-1 ring-[#c9a962]/30"
+          : "border-white/5 hover:border-white/20"
+      }`}
+    >
+      <div className="relative h-28 w-full">
+        <Image
+          src={project.image}
+          alt={project.title}
+          fill
+          className="object-cover"
+          sizes="200px"
+        />
+      </div>
+      <div className="bg-[#141820]/80 p-3">
+        <p className="text-[10px] uppercase tracking-wider text-[#c9a962]">
+          {project.category}
+        </p>
+        <p className="mt-0.5 font-display text-sm text-white">{project.title}</p>
+      </div>
+    </button>
   );
 }

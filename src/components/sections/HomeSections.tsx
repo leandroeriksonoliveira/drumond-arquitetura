@@ -1,7 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
 import { services } from "@/data/services";
 import { projects } from "@/data/projects";
+import { ArchitectPhoto } from "@/components/ui/ArchitectPhoto";
 
 export { HeroSection } from "./HeroSection";
 
@@ -64,19 +66,22 @@ export function ProjectsPreview() {
           </Link>
         </div>
         <div className="grid gap-8 md:grid-cols-2">
-          {projects.slice(0, 2).map((project) => (
+          {projects.slice(0, 4).map((project) => (
             <article
               key={project.id}
-              className="overflow-hidden rounded-2xl border border-white/5 bg-[#141820]"
+              className="group overflow-hidden rounded-2xl border border-white/5 bg-[#141820]"
             >
-              <div
-                className="flex h-48 items-center justify-center"
-                style={{
-                  background: `linear-gradient(135deg, ${project.color}22, #141820)`,
-                }}
-              >
-                <span className="font-display text-6xl font-light text-white/10">
-                  {project.category[0]}
+              <div className="relative h-56 overflow-hidden">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover transition duration-500 group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#141820] via-transparent to-transparent" />
+                <span className="absolute bottom-3 left-3 rounded-full bg-black/50 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-300 backdrop-blur-sm">
+                  Render 3D
                 </span>
               </div>
               <div className="p-6">
@@ -101,13 +106,7 @@ export function AboutPreview() {
   return (
     <section className="py-24">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2">
-        <div className="relative aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br from-[#c9a962]/20 to-[#141820]">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-display text-[120px] font-light text-white/5">
-              PD
-            </span>
-          </div>
-        </div>
+        <ArchitectPhoto className="aspect-[4/5] w-full" priority />
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[#c9a962]">
             Sobre

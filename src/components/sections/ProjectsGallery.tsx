@@ -1,15 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import { projects, type Project } from "@/data/projects";
-
-const ProjectViewer3D = dynamic(
-  () =>
-    import("@/components/three/ProjectViewer3D").then((m) => m.ProjectViewer3D),
-  { ssr: false, loading: () => <div className="h-full animate-pulse bg-white/5" /> },
-);
 
 export function ProjectsGallery() {
   const [selected, setSelected] = useState(projects[0]);
@@ -24,15 +17,21 @@ export function ProjectsGallery() {
           Galeria de Projetos
         </h1>
         <p className="mt-4 max-w-2xl text-zinc-400">
-          Renders 3D e fotos reais de obras executadas. Arraste para explorar
-          cada projeto em visualização interativa. Cada obra indica
+          Renders e fotos reais de obras executadas. Cada obra indica
           Responsabilidade Técnica (RRT) conforme Res. CAU/BR 75/2014.
         </p>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-2">
           <div className="overflow-hidden rounded-2xl border border-white/5 bg-[#141820]">
             <div className="relative h-[420px] w-full">
-              <ProjectViewer3D image={selected.image} className="relative h-full w-full" />
+              <Image
+                src={selected.image}
+                alt={selected.title}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                priority
+              />
             </div>
             <div className="border-t border-white/5 p-6">
               <p className="text-xs uppercase tracking-wider text-[#c9a962]">

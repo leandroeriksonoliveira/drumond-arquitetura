@@ -80,9 +80,6 @@ export function ProjectsPreview() {
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#141820] via-transparent to-transparent" />
-                <span className="absolute bottom-3 left-3 rounded-full bg-black/50 px-2 py-0.5 text-[10px] uppercase tracking-wider text-zinc-300 backdrop-blur-sm">
-                  Render 3D
-                </span>
               </div>
               <div className="p-6">
                 <p className="text-xs uppercase tracking-wider text-[#c9a962]">

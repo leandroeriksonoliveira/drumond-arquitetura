@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Drumond Arquitetura — Site Institucional
 
-## Getting Started
+Site institucional da **Arq. Paloma Drumond** — Arquiteta e Urbanista (Volta Redonda / Barra Mansa — RJ).
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router)
+- Tailwind CSS 4
+- React Three Fiber (visualização 3D)
+- Framer Motion
+- Deploy: Vercel
+
+## Conformidade
+
+O site foi desenvolvido para atender:
+
+- **Res. CAU/BR 75/2014** — identificação profissional, registro CAU, RRT em projetos
+- **LGPD (Lei 13.709/2018)** — política de privacidade, consentimento no formulário, canal de direitos
+- **CDC / Marco Civil** — transparência de contato e serviços
+
+## Configuração
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cp .env.example .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Edite `.env.local`:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Variável | Descrição |
+|---|---|
+| `NEXT_PUBLIC_CAU_REGISTRO` | Número CAU/RJ oficial (ex: `CAU/RJ A12345-6`) |
+| `NEXT_PUBLIC_SITE_URL` | URL de produção (ex: `https://drumondarquitetura.vercel.app`) |
+| `CONTACT_WEBHOOK_URL` | (Opcional) Webhook para receber formulários |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Desenvolvimento
 
-## Learn More
+```bash
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Abra [http://localhost:3000](http://localhost:3000).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run build
+npm start
+```
 
-## Deploy on Vercel
+## Deploy Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npx vercel
+npx vercel --prod
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Antes de publicar
+
+1. Atualizar `NEXT_PUBLIC_CAU_REGISTRO` com o número real do CAU/RJ
+2. Atualizar números de RRT nos projetos em `src/data/projects.ts`
+3. Substituir imagens ilustrativas por fotos reais dos projetos
+4. Configurar domínio `drumondarquitetura.com.br` na Vercel
